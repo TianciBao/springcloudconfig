@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+  </head>
+  <body>
+    <input id="text" type="text" />
+    <button onclick="send()">Send</button>  
+    <button onclick="closeWebSocket()">Close</button>
+    <div id="message">
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+       
+      var userID="888";
+      var websocket=null;
+ 
+      $(function(){
+        connectWebSocket();
+      })
+       
+      //build WebSocket connect
+      function connectWebSocket(){
+ 
+        console.log("begin...");
+        
+        if('WebSocket' in window){
+            //build WebSocket connect
+            websocket = new WebSocket("ws://127.0.0.1:8080/wbxsealion/websocket");
+        }
+        else{
+            alert('Not support websocket')
+        }
+        
+
+        
+       //when open webSokcet connect，callBack this function
+        websocket.onopen = function () {   
+          console.log("onpen"); 
+        }
+         
+        //when close webSokcet connect，callBack this function
+        websocket.onclose = function () {
+        //close connect 
+          console.log("onclose");
+        }
+ 
+        //rececive message
+        websocket.onmessage = function (msg) {
+          console.log(msg.data);
+        }
+ 
+      }
+      //send message
+      function send(){
+        var postValue={};
+        postValue.id=userID;
+        postValue.message=$("#text").val();     
+        websocket.send(JSON.stringify(postValue));
+      }
+      //close connect
+      function closeWebSocket(){
+        if(websocket != null) {
+          websocket.close();
+        }
+      }
+    </script>
+  </body>
+</html>
