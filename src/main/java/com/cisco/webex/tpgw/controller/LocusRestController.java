@@ -386,8 +386,6 @@ public class LocusRestController {
     public static void main(String[] args) throws IOException {
        Integer xx =  909588537;
        System.out.println(xx.byteValue());
-       
-      
    }
 
 }
